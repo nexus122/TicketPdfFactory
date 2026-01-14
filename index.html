@@ -28,12 +28,12 @@
                 
                 <div class="form-group">
                     <label for="start-number">Número inicial</label>
-                    <input type="number" id="start-number" value="1" min="1" max="999">
+                    <input type="number" id="start-number" value="1" min="1" max="99999">
                 </div>
 
                 <div class="form-group">
                     <label for="end-number">Número final</label>
-                    <input type="number" id="end-number" value="300" min="1" max="999">
+                    <input type="number" id="end-number" value="300" min="1" max="99999">
                 </div>
 
                 <div class="form-group">
@@ -49,6 +49,28 @@
                 <div class="form-group">
                     <label for="ticket-text">Texto de entrada (opcional)</label>
                     <input type="text" id="ticket-text" placeholder="Ej: ENTRADA" maxlength="20">
+                </div>
+
+                <div class="form-group">
+                    <label for="background-image">Imagen de fondo (PNG con transparencia)</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="background-image" accept="image/png,image/jpeg,image/jpg" class="file-input">
+                        <label for="background-image" class="file-label">
+                            <svg class="file-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span id="file-name">Seleccionar imagen...</span>
+                        </label>
+                    </div>
+                    <div id="opacity-control" class="opacity-control hidden">
+                        <label for="image-opacity" class="opacity-label">
+                            Transparencia de la imagen: <span id="opacity-value">30</span>%
+                        </label>
+                        <input type="range" id="image-opacity" min="0" max="100" value="30" class="opacity-slider">
+                    </div>
+                    <button type="button" id="clear-image" class="btn-clear-image hidden">Eliminar imagen</button>
                 </div>
 
                 <div class="stats">
@@ -83,7 +105,8 @@
                 <h3>ℹ️ Información</h3>
                 <ul>
                     <li>Formato de papel: <strong>A4</strong> (210 × 297 mm)</li>
-                    <li>Los números se formatean con ceros a la izquierda (001, 002, etc.)</li>
+                    <li>Los números se formatean con ceros dinámicos según el máximo</li>
+                    <li>Soporta imágenes de fondo PNG con transparencia</li>
                     <li>Diseño optimizado para impresión y corte</li>
                     <li>Ajusta las columnas para cambiar el tamaño de las entradas</li>
                 </ul>

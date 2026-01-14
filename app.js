@@ -20,6 +20,16 @@ function initializeApp() {
     const progressContainer = document.getElementById('progress-container');
     const progressFill = document.getElementById('progress-fill');
     const progressText = document.getElementById('progress-text');
+    const backgroundImageInput = document.getElementById('background-image');
+    const fileNameSpan = document.getElementById('file-name');
+    const clearImageBtn = document.getElementById('clear-image');
+    const opacityControl = document.getElementById('opacity-control');
+    const opacitySlider = document.getElementById('image-opacity');
+    const opacityValue = document.getElementById('opacity-value');
+
+    // Store background image data and opacity
+    let backgroundImageData = null;
+    let imageOpacity = 0.3; // Default 30%
 
     // Update stats when inputs change
     const updateStats = () => {
@@ -39,6 +49,40 @@ function initializeApp() {
     endNumberInput.addEventListener('input', updateStats);
     perPageInput.addEventListener('input', updateStats);
 
+    // Handle background image upload
+    backgroundImageInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            try {
+                backgroundImageData = await readImageFile(file);
+                fileNameSpan.textContent = file.name;
+                clearImageBtn.classList.remove('hidden');
+                opacityControl.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error loading image:', error);
+                alert('Error al cargar la imagen. Por favor, intenta con otra.');
+                backgroundImageInput.value = '';
+                fileNameSpan.textContent = 'Seleccionar imagen...';
+            }
+        }
+    });
+
+    // Handle opacity slider
+    opacitySlider.addEventListener('input', (e) => {
+        const value = e.target.value;
+        opacityValue.textContent = value;
+        imageOpacity = value / 100;
+    });
+
+    // Clear background image
+    clearImageBtn.addEventListener('click', () => {
+        backgroundImageData = null;
+        backgroundImageInput.value = '';
+        fileNameSpan.textContent = 'Seleccionar imagen...';
+        clearImageBtn.classList.add('hidden');
+        opacityControl.classList.add('hidden');
+    });
+
     // Generate PDF button click handler
     generateBtn.addEventListener('click', async () => {
         const start = parseInt(startNumberInput.value) || 1;
@@ -53,8 +97,8 @@ function initializeApp() {
             return;
         }
 
-        if (start < 1 || end > 999) {
-            alert('Los números deben estar entre 1 y 999');
+        if (start < 1 || end > 99999) {
+            alert('Los números deben estar entre 1 y 99.999');
             return;
         }
 
@@ -65,7 +109,7 @@ function initializeApp() {
         progressText.textContent = 'Generando PDF...';
 
         try {
-            await generatePDF(start, end, perPage, columns, ticketText, (progress) => {
+            await generatePDF(start, end, perPage, columns, ticketText, backgroundImageData, imageOpacity, (progress) => {
                 progressFill.style.width = `${progress}%`;
                 progressText.textContent = `Generando PDF... ${Math.round(progress)}%`;
             });
@@ -94,7 +138,22 @@ function initializeApp() {
 // PDF Generation Logic
 // ===========================
 
-async function generatePDF(start, end, perPage, columns, ticketText, onProgress) {
+// Helper function to read image file
+function readImageFile(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+// Calculate number of digits needed based on max number
+function getDigitsCount(maxNumber) {
+    return maxNumber.toString().length;
+}
+
+async function generatePDF(start, end, perPage, columns, ticketText, backgroundImage, imageOpacity, onProgress) {
     // Check if jsPDF is loaded
     if (typeof window.jspdf === 'undefined') {
         throw new Error('jsPDF library not loaded. Please refresh the page.');
@@ -144,7 +203,7 @@ async function generatePDF(start, end, perPage, columns, ticketText, onProgress)
         const y = margin + (row * ticketHeight);
 
         // Draw ticket
-        drawTicket(pdf, x, y, ticketWidth, ticketHeight, num, ticketText);
+        await drawTicket(pdf, x, y, ticketWidth, ticketHeight, num, ticketText, backgroundImage, imageOpacity, end);
 
         currentTicket++;
 
@@ -165,9 +224,28 @@ async function generatePDF(start, end, perPage, columns, ticketText, onProgress)
     pdf.save(fileName);
 }
 
-function drawTicket(pdf, x, y, width, height, number, ticketText) {
-    // Format number with leading zeros (001, 002, etc.)
-    const formattedNumber = String(number).padStart(3, '0');
+function drawTicket(pdf, x, y, width, height, number, ticketText, backgroundImage, imageOpacity, maxNumber) {
+    // Calculate digits needed based on max number
+    const digitsNeeded = getDigitsCount(maxNumber);
+
+    // Format number with dynamic leading zeros
+    const formattedNumber = String(number).padStart(digitsNeeded, '0');
+
+    // Draw background image if provided
+    if (backgroundImage) {
+        try {
+            // Save the current graphics state
+            pdf.saveGraphicsState();
+            // Set the opacity (alpha)
+            pdf.setGState(new pdf.GState({ opacity: imageOpacity }));
+            // Add the image
+            pdf.addImage(backgroundImage, 'PNG', x, y, width, height);
+            // Restore the graphics state to reset opacity
+            pdf.restoreGraphicsState();
+        } catch (error) {
+            console.warn('Could not add background image:', error);
+        }
+    }
 
     // Draw border
     pdf.setDrawColor(200, 200, 200);
