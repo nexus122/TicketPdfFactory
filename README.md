@@ -230,6 +230,6 @@ Creado con ❤️ para simplificar la generación de entradas numeradas.
 
 ### 🚀 ¡Comienza a generar entradas ahora!
 
-[Abrir Ticket Factory](./index.html)
+[Abrir Ticket Factory](https://nexus122.github.io/TicketPdfFactory/)
 
 </div>
