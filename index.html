@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generador de PDFs con números de entrada auto-incrementales">
+    <title>Ticket Factory - Generador de Entradas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 2L7 8H3L8 12L6 18L12 14L18 18L16 12L21 8H17L15 2H9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1>Ticket Factory</h1>
+            </div>
+            <p class="subtitle">Generador profesional de entradas numeradas</p>
+        </header>
+
+        <main class="main-content">
+            <div class="card">
+                <h2 class="card-title">Configuración de Entradas</h2>
+                
+                <div class="form-group">
+                    <label for="start-number">Número inicial</label>
+                    <input type="number" id="start-number" value="1" min="1" max="999">
+                </div>
+
+                <div class="form-group">
+                    <label for="end-number">Número final</label>
+                    <input type="number" id="end-number" value="300" min="1" max="999">
+                </div>
+
+                <div class="form-group">
+                    <label for="per-page">Entradas por página</label>
+                    <input type="number" id="per-page" value="50" min="1" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="columns">Columnas</label>
+                    <input type="number" id="columns" value="5" min="1" max="10">
+                </div>
+
+                <div class="form-group">
+                    <label for="ticket-text">Texto de entrada (opcional)</label>
+                    <input type="text" id="ticket-text" placeholder="Ej: ENTRADA" maxlength="20">
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total de entradas:</span>
+                        <span class="stat-value" id="total-tickets">300</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Páginas estimadas:</span>
+                        <span class="stat-value" id="total-pages">6</span>
+                    </div>
+                </div>
+
+                <button id="generate-btn" class="btn-generate">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Generar PDF
+                </button>
+
+                <div id="progress-container" class="progress-container hidden">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <p id="progress-text" class="progress-text">Generando PDF...</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>ℹ️ Información</h3>
+                <ul>
+                    <li>Formato de papel: <strong>A4</strong> (210 × 297 mm)</li>
+                    <li>Los números se formatean con ceros a la izquierda (001, 002, etc.)</li>
+                    <li>Diseño optimizado para impresión y corte</li>
+                    <li>Ajusta las columnas para cambiar el tamaño de las entradas</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
