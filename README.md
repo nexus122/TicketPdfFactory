@@ -7,15 +7,21 @@
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/es/docs/Web/JavaScript)
 [![PDFKit](https://img.shields.io/badge/PDFKit-FF2D20?style=for-the-badge&logo=adobe&logoColor=white)](https://pdfkit.org/)
 
+## 🌐 Demo en Vivo
+
+**[🚀 Prueba la aplicación aquí](https://nexus122.github.io/TicketPdfFactory/)** - ¡Sin instalación necesaria!
+
 ---
 
 ## 📋 Características
 
 ✨ **Generación instantánea** - Crea PDFs con cientos de entradas en segundos  
-🎨 **Interfaz moderna** - Diseño limpio y responsive con Tailwind CSS  
+🎨 **Interfaz moderna** - Diseño limpio y responsive con efectos visuales premium  
 ⚙️ **Totalmente personalizable** - Controla números, columnas, espacios y textos  
 📊 **Vista previa en tiempo real** - Ve las estadísticas antes de generar  
-🔢 **Soporte de rango ilimitado** - Genera desde la entrada 1 hasta la 999,999  
+🔢 **Soporte de rango amplio** - Genera desde la entrada 1 hasta la 99.999  
+🖼️ **Imágenes de fondo** - Añade logos o diseños PNG con control de transparencia  
+🎯 **Numeración dinámica** - Los ceros se ajustan automáticamente según el rango  
 📱 **Responsivo** - Funciona perfectamente en desktop, tablet y móvil  
 ⚡ **Sin dependencias externas** - Tecnología pura y ligera
 
@@ -55,6 +61,8 @@ Luego accede a `http://localhost:8000` en tu navegador.
 | **Entradas por página** | Cuántas entradas en cada página PDF | 50          |
 | **Columnas**            | Distribución en columnas            | 5           |
 | **Texto de entrada**    | Texto personalizado (opcional)      | "Rifa 2024" |
+| **Imagen de fondo**     | Logo o diseño PNG (opcional)        | logo.png    |
+| **Transparencia**       | Opacidad de la imagen (0-100%)      | 30%         |
 
 ### Paso 2: Vista Previa
 
